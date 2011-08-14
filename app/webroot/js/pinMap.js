@@ -1,3 +1,4 @@
+var infowindow;
 (function( $ ){
 	$.fn.pinMap = function(options) {
 		var map;
@@ -66,19 +67,22 @@
 					});
 					
 					var contentString = '<div id="content">'+
-					'<h1>' + pin.name + '</h1>'+
+					'<b>' + pin.name + '</b>'+
 					'<div id="bodyContent">'+
-	//			        '<p><b>Adresa:</b> ' + pin.address +
-	//			        '<p><b>Telefon:</b> ' + pin.telephone +
-	//			        '<p><b>Radno vreme:</b> ' + pin.work_hours +
-					'<p><b>Kategorija:</b> ' + pin.category +
+						'<p><b>Kategorija:</b> ' + pin.category + '</p>'+
+						'<p><b>Adresa:</b> ' + pin.address + '</p>'+
+						'<p><b>Telefon:</b> ' + pin.telephone + '</p>'+
+						'<p><b>Radno vreme:</b> ' + pin.work_hours + '</p>'+
 					'</div>'+
 					'</div>';
 			        
-				    	var infowindow = new google.maps.InfoWindow({
-						content: contentString
-				    	});
 				    	google.maps.event.addListener(marker, 'click', function() {
+						if (infowindow) infowindow.close();
+						infowindow = new google.maps.InfoWindow({
+							content: contentString,
+							maxWidth: 480,
+							maxHeight: 600
+						});
 						infowindow.open(map, marker);
 				    	});
 				});
@@ -87,7 +91,6 @@
 
 		var get_marker_icon = function(category_id) {
 			var icon_path = 'img/markers/';
-			console.log(category_id);
 			switch(category_id)
 			{
 			case 1:
@@ -228,11 +231,11 @@
 		
 		this.each(function() {
 			map = new google.maps.Map(this, mapOptions);
-			createControl('Prikazi lokaciju', 'Klikni ovde da bi ti se prikazala trenutna lokacija', startTracking);
 			createControl('Prekini pracenje', 'Klikni ovde da iskljucis prikazivanje lokacije', stopTracking);
+			createControl('Prati moju lokaciju', 'Klikni ovde da bi ti se prikazala trenutna lokacija', startTracking);
 			
-			createControl('Pokreni simulaciju', 'Klikni ovde da pokrenes simulaciju kreanja', startSimulation);
-			createControl('Prekini simulaciju', 'Klikni ovde da iskljucis simulaciju kreanja', stopTracking);
+			createControl('Prekini simulaciju', 'Klikni ovde da iskljucis simulaciju kretanja', stopTracking);
+			createControl('Pokreni simulaciju', 'Klikni ovde da pokrenes simulaciju kretanja', startSimulation);
 			
 			google.maps.event.addListener(map, 'idle', function() {
 				updateMarkers();
@@ -252,8 +255,9 @@
 		    	map.setZoom(zoom);
 		    }
 		}
-		
+
 	};
+
 })( jQuery );
 
 (function( $ ){
