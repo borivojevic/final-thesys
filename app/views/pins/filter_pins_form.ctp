@@ -6,18 +6,18 @@
 	
 		<form id="filter-pins-form" action="javascript:void(0);" method="post">
 		
-			<h2>Podesavanje pretrazivanja</h2>
+			<h2>Pretraživanje liste restorana</h2>
 			
-			<p>Filtriranje mape prema imenu objekta i po kategoriji kojoj objekat pripada.</p>
+			<p>Pretraživanje je moguće prema imenu restorana ili vrsti kuhinje. Lokacije pronadjenih rezultata će biti prikazane na mapi.</p>
 			
 			<div data-role="fieldcontain">
-				<label for="name">Ime:</label>
+				<label for="name">Ime restorana:</label>
 				<input type="text" name="name" id="name" value=""  /> 
 			</div>
 			
 			<div data-role="fieldcontain"> 
 				<fieldset data-role="controlgroup"> 
-					<legend>Odaberi kategoriju:</legend>
+					<legend>Kategorija restorana:</legend>
 					<?php
 						foreach($categories as $category_id => $category_name) {
 							echo "<input type='checkbox' name='category[]' id='category-$category_id' class='custom' value='$category_id' />";
