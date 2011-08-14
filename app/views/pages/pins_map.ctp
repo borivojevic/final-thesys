@@ -11,4 +11,3 @@ $(document).ready(function() {
 //	pinPinMap.setCategories([1, 2, 3, 5]);
 });
 </script>
-<?php echo $this->element('notifications'); ?>

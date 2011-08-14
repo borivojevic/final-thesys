@@ -15,4 +15,3 @@
 	</div>
 	
 </div>
-<?php echo $this->element('notifications'); ?>
