@@ -1,10 +1,8 @@
 <?php $javascript->link('profileSettings', false); ?>
 <div class="page" data-role="page" data-theme="c" style="width: 100%; height: 100%">
 
-	<div data-role="header" id="hdrMain">
-		<h1>Diplomski Rad</h1>
-	</div>
-	
+	<?php echo $this->element('header'); ?>
+
 	<div data-role="content" id="contentMain">
 	
 		<form id="profile-settings-form" action="javascript:void(0);" method="post">
