@@ -72,10 +72,13 @@ class PinsController extends AppController {
 			));
 			foreach($data as $pin) {
 				$categories = array();
+				$category_ids = array();
 				foreach($pin['Category'] as $category) {
 					$categories[] = $category['name'];
+					$category_ids[] = $category['id'];
 				}
 				$pin['Pin']['category'] = implode(', ', $categories);
+				$pin['Pin']['category_ids'] = implode(', ', $category_ids);
 				unset($pin['Category']);
 				$markers['markers'][]['marker'] = $pin['Pin'];
 			}

@@ -7,9 +7,9 @@
 		var locations = new Array();
 		var geolocationTask = null;
 		
-		var latlng = new google.maps.LatLng(43.3, 21.9);
+		var latlng = new google.maps.LatLng(43.32, 21.9);
 		var mapOptions = {
-			zoom : 12,
+			zoom : 15,
 			center : latlng,
 			mapTypeControl : false,
 			navigationControl : true,
@@ -51,34 +51,79 @@
 						parseFloat(pin.latitude),
 						parseFloat(pin.longitude));
 					
+					var category_ids = pin.category_ids.split(',');
+					var category_id = parseInt(category_ids[category_ids.length-1]);
+					var image = new google.maps.MarkerImage(get_marker_icon(category_id));
+
 					var marker = new google.maps.Marker({
 						position : latlng,
 						map : map,
 						flat : true,
 						cursor : 'pointer',
 						pin_id : pin.id,
-						title: pin.name
+						title: pin.name,
+						icon: image
 					});
 					
 					var contentString = '<div id="content">'+
-			        '<h1>' + pin.name + '</h1>'+
-			        '<div id="bodyContent">'+
-//			        '<p><b>Adresa:</b> ' + pin.address +
-//			        '<p><b>Telefon:</b> ' + pin.telephone +
-//			        '<p><b>Radno vreme:</b> ' + pin.work_hours +
-			        '<p><b>Kategorija:</b> ' + pin.category +
-			        '</div>'+
-			        '</div>';
+					'<h1>' + pin.name + '</h1>'+
+					'<div id="bodyContent">'+
+	//			        '<p><b>Adresa:</b> ' + pin.address +
+	//			        '<p><b>Telefon:</b> ' + pin.telephone +
+	//			        '<p><b>Radno vreme:</b> ' + pin.work_hours +
+					'<p><b>Kategorija:</b> ' + pin.category +
+					'</div>'+
+					'</div>';
 			        
-				    var infowindow = new google.maps.InfoWindow({
-				        content: contentString
-				    });
-
-				    google.maps.event.addListener(marker, 'click', function() {
-				    	infowindow.open(map, marker);
-				    });
+				    	var infowindow = new google.maps.InfoWindow({
+						content: contentString
+				    	});
+				    	google.maps.event.addListener(marker, 'click', function() {
+						infowindow.open(map, marker);
+				    	});
 				});
 			});
+		}
+
+		var get_marker_icon = function(category_id) {
+			var icon_path = 'img/markers/';
+			console.log(category_id);
+			switch(category_id)
+			{
+			case 1:
+				icon_path += 'restaurant.png';
+				break;
+			case 2:
+				icon_path += 'restaurant_fish.png';
+				break;
+			case 3:
+				icon_path += 'restaurant_italian.png';
+				break;
+			case 4:
+				icon_path += 'restaurant_chinese.png';
+				break;
+			case 5:
+				icon_path += 'candy.png';
+				break;
+			case 6:
+				icon_path += 'bread.png';
+				break;
+			case 7:
+				icon_path += 'barbecue.png';
+				break;
+			case 8:
+				icon_path += 'liquor.png';
+				break;
+			case 9:
+				icon_path += 'fastfood.png';
+				break;
+			case 10:
+				icon_path += 'pizzaria.png';
+				break;
+			default:
+				icon_path += 'restaurant.png';
+			}
+			return icon_path;
 		}
 		
 		var update_location = function() {
