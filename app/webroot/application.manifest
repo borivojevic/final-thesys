@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# 2011-05-01:v6
+
+# Explicitly cached entries
+# jquery mobile fajlovi
+/
+css/jquery.mobile-1.0a4.1.min.css
+js/jquery-1.5.2.min.js
+js/jquery.mobile-1.0a4.1.min.js
+
+# offline.html will be displayed if the user is offline
+FALLBACK:
+/diplomski/app/map offline
+
+# All other resources (e.g. sites) require the user to be online. 
+NETWORK:
+*
+
+# Additional resources to cache
+CACHE:
+css/images/ajax-loader.png
+css/images/icons-18-white.png
