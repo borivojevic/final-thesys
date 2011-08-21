@@ -1,5 +1,3 @@
-<div id="notificationDiv"></div>
-<script>
 $('.page').live('pagecreate',function(event){
 	if ("WebSocket" in window) {
 	    host = "localhost:7777";
@@ -33,7 +31,7 @@ function postMessage(msg) {
 	}
 
 	if(notificationCheck(messageData.latitude, messageData.longitude, messageData.categories)) {
-		alert(messageData.message);
+		apprise(messageData.message);
 	}
 
 	// Save message localy
@@ -79,4 +77,3 @@ var notificationCheck = function(latitude, longitude, categories) {
 	});
 	return inArray;
 }
-</script>
