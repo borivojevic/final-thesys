@@ -122,7 +122,7 @@ class PinsController extends AppController {
 			foreach($pin_data['Category'] as $category) {
 				$categoies[] = $category['id'];
 			}
-			$categories = implode(',', $categories);
+			$categories = implode(',', $categoies);
 
 			// Send notification
 			$url = 'http://localhost:7777';
@@ -135,7 +135,7 @@ class PinsController extends AppController {
 			//url-ify the data for the POST
 			$fields_string = '';
 			foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-			rtrim($fields_string,'&');
+			$fields_string = rtrim($fields_string,'&');
 
 			//open connection
 			$ch = curl_init();

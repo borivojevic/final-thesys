@@ -1,20 +1,11 @@
-<div align="center" data-role="content" id="notification-div" name="notification-div" style="width:100%; height:100%">
-	<p id="notification-message"></p>
-	<button data-theme="a" onclick="javascript:hideNotificationDiv();"><?php echo __('Ok', true); ?></button>
-</div>
+<div id="notificationDiv"></div>
 <script>
-var hideNotificationDiv = function() {
-	$('#notification-div').hide();
-	$('.page').show();
-}
-
-$(document).ready(function() {
-	$('#notification-div').hide();
+$('.page').live('pagecreate',function(event){
 	if ("WebSocket" in window) {
 	    host = "localhost:7777";
 	    conn = new WebSocket("ws://"+host+"/");
 	    conn.onmessage = function(evt) {
-	        postMessage(evt.data);
+		postMessage(evt.data);
 	    };
 	
 	    conn.onerror = function() {
@@ -26,15 +17,66 @@ $(document).ready(function() {
 	
 	    conn.onopen = function() { 
 	        //alert("You are connected");
-	        //postMessage("You are connected");
 	    };
 	}
+
 });
 
-function postMessage(msg){
-	console.log(msg);
-	$('.page').hide();
-	$('#notification-div').show();
-    $("#notification-message").text(msg);
+var latitude = false;
+var longitude = false;
+
+function postMessage(msg) {
+	var messageData = JSON.parse(msg);
+	
+	if(geo_position_js.init()) {
+		geo_position_js.getCurrentPosition(showPosition, console.log("Couldn't get location"));
+	}
+
+	if(notificationCheck(messageData.latitude, messageData.longitude, messageData.categories)) {
+		alert(messageData.message);
+	}
+
+	// Save message localy
+	if(true == supportsLocalStorage()) {
+		var localNotifications = localStorage.notifications;
+		if(undefined == localNotifications) {
+			localNotifications = new Array();
+		} else {
+			localNotifications = localNotifications.split(',');
+		}
+		localNotifications.push(messageData.message);
+		localStorage.notifications = localNotifications;
+	}
+}
+
+var showPosition = function(p) {
+	latitude = p.coords.latitude;
+	longitude = p.coords.longitude;
+}
+
+// Returns true if notification location is within users defined area range
+var notificationCheck = function(latitude, longitude, categories) {
+	if(false == supportsLocalStorage()) {
+		return true;
+	}
+	if(undefined == localStorage.notificationEnabled || !localStorage.notificationEnabled) {
+		return false;
+	}
+	if(undefined == localStorage.notificationArea) {
+		return true;	
+	}
+	var notificationArea = localStorage.notificationArea;
+	if(undefined == localStorage.notificationCategories) {
+		return true
+	}
+	// Check notification distance
+	var notificationCategories = localStorage.notificationCategories.split(',');
+	var inArray = false;
+	$.each(categories, function(index, value) {
+		if($.inArray('"' + value + '"', notificationCategories)) {
+			inArray = true;
+		}
+	});
+	return inArray;
 }
 </script>

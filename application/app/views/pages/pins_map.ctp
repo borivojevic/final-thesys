@@ -1,5 +1,4 @@
 <?php
-$javascript->link('geo', false);
 $javascript->link('http://maps.google.com/maps/api/js?sensor=true', false);
 $javascript->link('pinMap', false);
 ?>
