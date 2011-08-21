@@ -1,4 +1,4 @@
-<div class="page" data-role="page" data-theme="c" style="width: 100%;">
+<div id="profile-settings-page" class="page" data-role="page" data-theme="c" style="width: 100%;">
 
 	<?php echo $this->element('header'); ?>
 
@@ -48,16 +48,23 @@
 	
 		<script>
 		var loadFormData = function() {
-			console.log('invoked');
 			if(false != supportsLocalStorage()) {
-				console.log(localStorage);
-				$('#notification').val(localStorage.notificationEnabled);
+				// Update notification
+				var notification = $('#notification');
+				if(localStorage.notificationEnabled) {
+					notification[0].selectedIndex = 1;
+				} else {
+					notification[0].selectedIndex = 0;
+				}
+				notification.slider("refresh");
+				//Update area slider
+				$('#notification-area').val(localStorage.notificationArea).slider("refresh");
+				// Update categories
 				var categories = localStorage.notificationCategories.split(',');
-				$("input[name='category[]']").val(categories);
-				$("input[type=range]").val(localStorage.notificationArea).slider("refresh");
+				$("input[name='category[]']").val(categories).checkboxradio("refresh");
 			}
 		}
-		$(document).ready(function() {
+		$("#profile-settings-page").bind("pageshow", function() {
 			loadFormData();
 			var profileSettingsForm = $('#profile-settings-form');
 			profileSettingsForm.submit(function() {
