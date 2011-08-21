@@ -53,7 +53,7 @@ var showPosition = function(p) {
 }
 
 // Returns true if notification location is within users defined area range
-var notificationCheck = function(latitude, longitude, categories) {
+var notificationCheck = function(lat, lon, categories) {
 	if(false == supportsLocalStorage()) {
 		return true;
 	}
@@ -64,6 +64,10 @@ var notificationCheck = function(latitude, longitude, categories) {
 		return true;	
 	}
 	var notificationArea = localStorage.notificationArea;
+	var areaDistance = distVincenty(latitude, longitude, lat, lon);
+	if(areaDistance > notificationArea) {
+		return false;
+	}
 	if(undefined == localStorage.notificationCategories) {
 		return true
 	}
@@ -76,4 +80,23 @@ var notificationCheck = function(latitude, longitude, categories) {
 		}
 	});
 	return inArray;
+}
+
+function distVincenty(lat1, lon1, lat2, lon2) {
+	var R = 6371; // km
+	var dLat = (lat2-lat1).toRad();
+	var dLon = (lon2-lon1).toRad(); 
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+	return d;
+}
+
+// ---- extend Number object with methods for converting degrees/radians
+
+/** Converts numeric degrees to radians */
+if (typeof(Number.prototype.toRad) === "undefined") {
+	Number.prototype.toRad = function() {
+	return this * Math.PI / 180;
+	}
 }
