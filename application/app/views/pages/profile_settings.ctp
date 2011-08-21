@@ -50,18 +50,24 @@
 		var loadFormData = function() {
 			if(false != supportsLocalStorage()) {
 				// Update notification
-				var notification = $('#notification');
-				if(localStorage.notificationEnabled) {
-					notification[0].selectedIndex = 1;
-				} else {
-					notification[0].selectedIndex = 0;
+				if(undefined != localStorage.notificationEnabled) {
+					var notification = $('#notification');
+					if(localStorage.notificationEnabled) {
+						notification[0].selectedIndex = 1;
+					} else {
+						notification[0].selectedIndex = 0;
+					}
+					notification.slider("refresh");
 				}
-				notification.slider("refresh");
 				//Update area slider
-				$('#notification-area').val(localStorage.notificationArea).slider("refresh");
+				if(undefined != localStorage.notificationArea) {
+					$('#notification-area').val(localStorage.notificationArea).slider("refresh");
+				}
 				// Update categories
-				var categories = localStorage.notificationCategories.split(',');
-				$("input[name='category[]']").val(categories).checkboxradio("refresh");
+				if(undefined != localStorage.notificationCategories) {
+					var categories = localStorage.notificationCategories.split(',');
+					$("input[name='category[]']").val(categories).checkboxradio("refresh");
+				}
 			}
 		}
 		$("#profile-settings-page").bind("pageshow", function() {
