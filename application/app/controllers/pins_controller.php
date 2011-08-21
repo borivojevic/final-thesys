@@ -11,6 +11,8 @@ class PinsController extends AppController {
 	 */
 	public $uses = array('Pin');
 
+	public $components = array('RequestHandler');
+
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('add', 'list_markers', 'search', 'filter_pins_form');
@@ -105,6 +107,53 @@ class PinsController extends AppController {
 			'limit' => 10
 		));
 		$this->set('result', array_values($result));
+	}
+
+	function send_notification() {
+		$pins = $this->Pin->find('list');
+		$this->set('pins', $pins);
+		if($this->RequestHandler->isPost()) {
+			$this->Pin->id = $this->data['Pin']['id'];
+			$text = $this->data['Pin']['text'];
+			$pin_data = $this->Pin->read();
+			$latitude = $pin_data['Pin']['latitude'];
+			$longitude = $pin_data['Pin']['longitude'];
+			$categories = array();
+			foreach($pin_data['Category'] as $category) {
+				$categoies[] = $category['id'];
+			}
+			$categories = implode(',', $categories);
+
+			// Send notification
+			$url = 'http://localhost:7777';
+			$fields = array(
+				'message'=>urlencode($text),
+				'latitude'=>urlencode($latitude),
+				'longitude'=>urlencode($longitude),
+				'categories'=>urlencode($categories)
+			);
+			//url-ify the data for the POST
+			$fields_string = '';
+			foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+			rtrim($fields_string,'&');
+
+			//open connection
+			$ch = curl_init();
+
+			//set the url, number of POST vars, POST data
+			curl_setopt($ch,CURLOPT_URL,$url);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+			curl_setopt($ch,CURLOPT_PORT,7777);
+			curl_setopt($ch,CURLOPT_POST,count($fields));
+			curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+
+			//execute post
+			curl_exec($ch);
+			//close connection
+			curl_close($ch);
+			
+			$this->Session->setFlash('Poruka je poslata');
+		}
 	}
 
 }
