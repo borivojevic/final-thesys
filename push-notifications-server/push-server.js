@@ -16,7 +16,7 @@ var httpServer = http.createServer(function(req, res){
         });
         req.on('end', function () {
             var post = qs.parse(body);
-	    message = post.message;
+	    message = JSON.stringify(post);
 	    for (var i = 0; i < connections.length; i++) {
 		var connection = connections[i];
                 server.send(connection.id, message);
