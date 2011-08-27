@@ -1,4 +1,4 @@
-<div class="page" data-role="page" data-theme="c" style="width: 100%; height: 100%">
+<div class="page" data-role="page" data-theme="c" style="width: 100%;">
 
 	<?php echo $this->element('header'); ?>
 
