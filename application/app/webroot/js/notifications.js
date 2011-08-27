@@ -1,19 +1,22 @@
 $('.page').live('pagecreate',function(event){
 	if ("WebSocket" in window) {
-	    host = "localhost:7777";
+	    host = "46.21.104.5:7777";
 	    conn = new WebSocket("ws://"+host+"/");
 	    conn.onmessage = function(evt) {
 		postMessage(evt.data);
 	    };
 	
 	    conn.onerror = function() {
+		console.log('error');
 	    };
 	
 	    conn.onclose = function() {
+		console.log('close');
 	        conn = false;
 	    };
 	
 	    conn.onopen = function() { 
+		console.log('opened');
 	        //alert("You are connected");
 	    };
 	}
