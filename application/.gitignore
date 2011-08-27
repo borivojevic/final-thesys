@@ -1,4 +1,4 @@
 .project
 .settings/*
-app/tmp/*
+#app/tmp/*
 *.swp
