@@ -4,7 +4,7 @@
 
 	<div data-role="content" id="contentMain">
 		
-		<h2>Predhodne ponuce</h2>
+		<h2>Predhodne ponude</h2>
 			
 		<p>Lista sadrži nedavno primljene ponude o popustima u restoranima. Sav sadržaj je zapamćen u lokalnoj memoriji pretraživača.</p>
 
