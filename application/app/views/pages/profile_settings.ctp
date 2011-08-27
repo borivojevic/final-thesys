@@ -75,7 +75,7 @@
 			var profileSettingsForm = $('#profile-settings-form');
 			profileSettingsForm.submit(function() {
 				if(false == supportsLocalStorage()) {
-					alert('Nije moguce snimiti podesavanja jer uredjaj ne podrzava lokalnu memoriju');
+					apprise('Nije moguce snimiti podesavanja jer uredjaj ne podrzava lokalnu memoriju');
 					return;
 				}
 				var notificationEnabled = $('#notification').val();
@@ -87,7 +87,7 @@
 				localStorage["notificationEnabled"] = notificationEnabled;
 				localStorage["notificationArea"] = notificationArea;
 				localStorage["notificationCategories"] = notificationCategories;
-				alert('Podesavanja su snimljena');
+				apprise('Podesavanja su snimljena');
 			});
 		});
 		</script>
