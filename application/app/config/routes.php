@@ -30,6 +30,7 @@
 	Router::connect('/map', array('controller' => 'pages', 'action' => 'display', 'map'));
 	Router::connect('/pins_map', array('controller' => 'pages', 'action' => 'display', 'pins_map'));
 	Router::connect('/offline', array('controller' => 'pages', 'action' => 'display', 'offline'));
+	Router::connect('/send_notification', array('controller' => 'pins', 'action' => 'send_notification'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
