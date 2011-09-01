@@ -14,6 +14,7 @@ class MessagesController extends AppController {
 			'latitude' => $_POST['latitude'],
 			'longitude' => $_POST['longitude']
 		)));
+		$this->sendPushNotification($_POST['message'], $_POST['latitude'], $_POST['longitude']);
 		$this->set('status', array('Status' => 'OK'));
 	}
 	

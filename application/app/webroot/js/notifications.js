@@ -47,7 +47,6 @@ var saveGeoMessageOnServer = function() {
 		message: text
 	};
 	$.post('/messages/save_message.json', data, function(data) {
-		console.log(data);
 		$('.ui-dialog').dialog('close');
 	});
 }
@@ -101,6 +100,9 @@ var notificationCheck = function(lat, lon, categories) {
 	}
 
 	// Check notification categories
+	if(undefined == categories) {
+		return true;
+	}
 	var notificationCategories = localStorage.notificationCategories.split(',');
 	var inArray = false;
 	$.each(categories, function(index, value) {
