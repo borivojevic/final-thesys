@@ -46,7 +46,7 @@ var saveGeoMessageOnServer = function() {
 		longitude: longitude,
 		message: text
 	};
-	$.post('/messages/save_message', data, function(data) {
+	$.post('/messages/save_message.json', data, function(data) {
 		console.log(data);
 		$('.ui-dialog').dialog('close');
 	});
