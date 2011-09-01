@@ -5,5 +5,5 @@
 
 	<h1>Vodič kroz restorane</h1>
 
-	<a href="javascript:void(0);" data-icon="plus">Pošalji poruku</a>
+	<a href="/pages/send_message_dialog" data-rel="dialog" data-icon="plus">Pošalji poruku</a>
 </div>

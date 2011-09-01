@@ -31,6 +31,27 @@ $(document).ready(function(){
 
 });
 
+var saveGeoMessageOnServer = function() {
+	if(false == latitude || false == longitude) {
+		apprise('Lokacija nije dostupna. Pokusajte ponovo kroz nekoliko sekundi');
+		return false;
+	}
+	var text = $('#messageTextarea').val();
+	if('' == text) {
+		apprise('Morate uneti tekst poruke');
+		return false;
+	}
+	var data = {
+		latitude: latitude,
+		longitude: longitude,
+		message: text
+	};
+	$.post('/messages/save_message', data, function(data) {
+		console.log(data);
+		$('.ui-dialog').dialog('close');
+	});
+}
+
 function postMessage(msg) {
 	var messageData = JSON.parse(msg);
 	
