@@ -1,4 +1,4 @@
-$('.page').live('pagecreate',function(event){
+$(document).ready(function(){
 	if ("WebSocket" in window) {
 	    host = "46.21.104.5:7777";
 	    conn = new WebSocket("ws://"+host+"/");
