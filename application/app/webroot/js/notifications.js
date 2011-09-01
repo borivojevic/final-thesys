@@ -1,4 +1,12 @@
+var geolocationTask = false;
+var latitude = false;
+var longitude = false;
+
 $(document).ready(function(){
+	//Start tracking users location
+	if (geo_position_js.init()) {
+		geolocationTask = setInterval(updateLocation, 10000);
+	}
 	if ("WebSocket" in window) {
 	    host = "46.21.104.5:7777";
 	    conn = new WebSocket("ws://"+host+"/");
@@ -23,16 +31,9 @@ $(document).ready(function(){
 
 });
 
-var latitude = false;
-var longitude = false;
-
 function postMessage(msg) {
 	var messageData = JSON.parse(msg);
 	
-	if(geo_position_js.init()) {
-		geo_position_js.getCurrentPosition(showPosition, console.log("Couldn't get location"));
-	}
-
 	if(notificationCheck(messageData.latitude, messageData.longitude, messageData.categories)) {
 		apprise(messageData.message);
 	}
@@ -50,6 +51,10 @@ function postMessage(msg) {
 	}
 }
 
+var updateLocation = function() {
+	geo_position_js.getCurrentPosition(showPosition, console.log("Couldn't get location"));
+}
+
 var showPosition = function(p) {
 	latitude = p.coords.latitude;
 	longitude = p.coords.longitude;
@@ -60,21 +65,21 @@ var notificationCheck = function(lat, lon, categories) {
 	if(false == supportsLocalStorage()) {
 		return true;
 	}
+
 	if(undefined == localStorage.notificationEnabled || !localStorage.notificationEnabled) {
 		return false;
 	}
-	if(undefined == localStorage.notificationArea) {
-		return true;	
-	}
-	var notificationArea = localStorage.notificationArea;
-	var areaDistance = distVincenty(latitude, longitude, lat, lon);
-	if(areaDistance > notificationArea) {
-		return false;
-	}
-	if(undefined == localStorage.notificationCategories) {
-		return true
-	}
+
 	// Check notification distance
+	if(undefined != localStorage.notificationArea && false != latitude && false != longitude) {
+		var notificationArea = localStorage.notificationArea;
+		var areaDistance = distVincenty(latitude, longitude, lat, lon);
+		if(areaDistance > notificationArea) {
+			return false;
+		}
+	}
+
+	// Check notification categories
 	var notificationCategories = localStorage.notificationCategories.split(',');
 	var inArray = false;
 	$.each(categories, function(index, value) {
