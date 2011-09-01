@@ -39,6 +39,18 @@ var infowindow;
 			if(category != "") {
 				url += '&category=' + category;
 			}
+			var area = getParameterByName('area');
+			if(area != "") {
+				url += '&area=' + area;
+			}
+			var latitude = getParameterByName('latitude');
+			if(latitude != "") {
+				url += '&latitude=' + latitude;
+			}
+			var longitude = getParameterByName('longitude');
+			if(longitude != "") {
+				url += '&longitude=' + longitude;
+			}
 			
 			$.getJSON(url, function(data) {
 				$.each(data.markers, function(index, data) {

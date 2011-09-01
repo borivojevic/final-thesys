@@ -8,11 +8,16 @@
 		
 			<h2>Pretraživanje liste restorana</h2>
 			
-			<p>Pretraživanje je moguće prema imenu restorana ili vrsti kuhinje. Lokacije pronadjenih rezultata će biti prikazane na mapi.</p>
+			<p>Pretraživanje je moguće prema imenu restoran, vrsti kuhinje i maksimalnoj udaljenosti restorana od trenutne lokacije. Pronadjeni rezultatiće biti prikazane na mapi.</p>
 			
 			<div data-role="fieldcontain">
 				<label for="name">Ime restorana:</label>
 				<input type="text" name="name" id="name" value=""  /> 
+			</div>
+			
+			<div data-role="fieldcontain"> 
+				<label for="filter-area">Maksimalna udaljenost od objekta (km):</label> 
+			 	<input type="range" name="filter-area" id="filter-area" value="1" min="1" max="50"  /> 
 			</div>
 			
 			<div data-role="fieldcontain"> 
@@ -38,12 +43,20 @@
 $(document).ready(function() {
 	var filterPinsForm = $('#filter-pins-form');
 	filterPinsForm.submit(function() {
+		if(false == latitude || false == longitude) {
+			apprise('Lokacija nije dostupna. Pokusajte ponovo kroz nekoliko sekundi');
+			return false;
+		}
 		var name = $('#name').val();
 		var categories = new Array();
+		var filterArea = $('#filter-area').val();
 		$.each($("input[name='category[]']:checked"), function() {
 		  categories.push($(this).val());
 		});
-		var location = '/pins_map?name=' + name + '&category=' + categories.join(",");
+		var location = '/pins_map?name=' + name + '&category=' + categories.join(",")
+				+ '&area=' + filterArea
+				+ '&latitude=' + latitude
+				+ '&longitude=' + longitude;
 		window.location = location;
 	});
 	
