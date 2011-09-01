@@ -9,7 +9,7 @@ class PinsController extends AppController {
 	 * @var Array
 	 * @access public
 	 */
-	public $uses = array('Pin');
+	public $uses = array('Pin', 'Message');
 
 	public $components = array('RequestHandler');
 
@@ -82,9 +82,36 @@ class PinsController extends AppController {
 				$pin['Pin']['category'] = implode(', ', $categories);
 				$pin['Pin']['category_ids'] = implode(', ', $category_ids);
 				unset($pin['Category']);
+				$pin['Pin']['type'] = 'pin';
 				$markers['markers'][]['marker'] = $pin['Pin'];
 			}
 		}
+
+		// Add messages data
+		$conditions = array(
+			'NOT' => array('Message.latitude' => null),
+			'NOT' => array('Message.longitude' => null),
+			'Message.latitude >' => $sw_lat,
+			'Message.latitude <' => $ne_lat,
+			'Message.longitude >' => $sw_lon,
+			'Message.longitude <' => $ne_lon
+		);
+		$data = $this->Message->find('all', array(
+			'conditions' => $conditions,
+			'fields' => array(
+				'Message.id',
+				'Message.text',
+				'Message.latitude',
+				'Message.longitude',
+			),
+			'recursive' => -1
+		));
+		foreach($data as $pin) {
+			$pin['Message']['type'] = 'message';
+			$pin['Message']['id'] = 'mes_' . $pin['Message']['id'];
+			$markers['markers'][]['marker'] = $pin['Message'];
+		}
+
 		$this->set('markers', $markers);
 	}
 	

@@ -51,30 +51,51 @@ var infowindow;
 					var latlng = new google.maps.LatLng(
 						parseFloat(pin.latitude),
 						parseFloat(pin.longitude));
-					
-					var category_ids = pin.category_ids.split(',');
-					var category_id = parseInt(category_ids[category_ids.length-1]);
-					var image = new google.maps.MarkerImage(get_marker_icon(category_id));
 
-					var marker = new google.maps.Marker({
-						position : latlng,
-						map : map,
-						flat : true,
-						cursor : 'pointer',
-						pin_id : pin.id,
-						title: pin.name,
-						icon: image
-					});
-					
-					var contentString = '<div id="content">'+
-					'<b>' + pin.name + '</b>'+
-					'<div id="bodyContent">'+
-						'<p><b>Kategorija:</b> ' + pin.category + '</p>'+
-						'<p><b>Adresa:</b> ' + pin.address + '</p>'+
-						'<p><b>Telefon:</b> ' + pin.telephone + '</p>'+
+					if('pin' == pin.type) {
+						var category_ids = pin.category_ids.split(',');
+						var category_id = parseInt(category_ids[category_ids.length-1]);
+						var image = new google.maps.MarkerImage(get_marker_icon(category_id));
+
+						var marker = new google.maps.Marker({
+							position : latlng,
+							map : map,
+							flat : true,
+							cursor : 'pointer',
+							pin_id : pin.id,
+							title: pin.name,
+							icon: image
+						});
+						
+						var contentString = '<div id="content">'+
+						'<b>' + pin.name + '</b>'+
+						'<div id="bodyContent">'+
+							'<p><b>Kategorija:</b> ' + pin.category + '</p>'+
+							'<p><b>Adresa:</b> ' + pin.address + '</p>'+
+							'<p><b>Telefon:</b> ' + pin.telephone + '</p>'+
 						'<p><b>Radno vreme:</b> ' + pin.work_hours + '</p>'+
-					'</div>'+
-					'</div>';
+						'</div>'+
+						'</div>';
+					}
+					
+					if('message' == pin.type) {
+						var image = new google.maps.MarkerImage('/img/markers/comment.png');
+
+						var marker = new google.maps.Marker({
+							position : latlng,
+							map : map,
+							flat : true,
+							cursor : 'pointer',
+							pin_id : pin.id,
+							title: 'Poruka',
+							icon: image
+						});
+						
+						var contentString = '<div id="content">'+
+						'<b>Poruka</b>'+
+						'<div id="bodyContent">'+ pin.text + '</div>'+
+						'</div>';
+					}
 			        
 				    	google.maps.event.addListener(marker, 'click', function() {
 						if (infowindow) infowindow.close();
