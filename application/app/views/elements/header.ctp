@@ -1,7 +1,9 @@
 <div data-role="header">
-	<?php if(isset($show_home)): ?>
-		<a href="/" rel="external" data-role="button" data-icon="home">Početna</a>
+	<?php if($this->params['url']['url'] != '/'): ?>
+		<a href="/" data-role="button" data-icon="home" data-rel="back">Početna</a>
 	<?php endif; ?>
 
 	<h1>Vodič kroz restorane</h1>
+
+	<a href="javascript:void(0);" data-icon="plus">Pošalji poruku</a>
 </div>
