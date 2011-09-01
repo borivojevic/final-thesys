@@ -10,6 +10,8 @@
 		echo $this->Html->css('apprise.min');
 		echo $javascript->link('jquery-1.5.2.min');
 		echo $javascript->link('jquery.mobile-1.0a4.1.min');
+		echo $javascript->link('http://maps.google.com/maps/api/js?sensor=true');
+		echo $javascript->link('pinMap');
 		echo $javascript->link('profileSettings');
 		echo $javascript->link('geo');
 		echo $javascript->link('apprise-1.5.min');

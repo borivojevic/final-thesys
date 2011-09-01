@@ -1,6 +1,6 @@
 <div data-role="header">
 	<?php if($this->params['url']['url'] != '/'): ?>
-		<a href="/" data-role="button" data-icon="home" data-rel="back">Početna</a>
+		<a href="/" data-role="button" data-icon="home">Početna</a>
 	<?php endif; ?>
 
 	<h1>Vodič kroz restorane</h1>
