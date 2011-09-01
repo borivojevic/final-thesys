@@ -87,29 +87,6 @@ CREATE TABLE `pins` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `uploads`
---
-
-DROP TABLE IF EXISTS `uploads`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `uploads` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(75) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `size` int(11) NOT NULL,
-  `data` mediumblob NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `latitude` float(9,6) DEFAULT NULL,
-  `longitude` float(9,6) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `users`
 --
 
@@ -136,4 +113,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-01 14:07:58
+-- Dump completed on 2011-09-01 14:10:03
