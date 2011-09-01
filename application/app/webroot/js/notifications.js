@@ -55,7 +55,11 @@ function postMessage(msg) {
 	var messageData = JSON.parse(msg);
 	
 	if(notificationCheck(messageData.latitude, messageData.longitude, messageData.categories)) {
-		apprise(messageData.message);
+		apprise(messageData.message, {'verify':true, 'textYes':'Pokaži na mapi', 'textNo':'Zatvori'}, function(yes) {
+			if(yes) {
+				window.location = 'http://46.21.104.5/pins_map?center_lat=' + messageData.latitude + '&center_lon=' + messageData.longitude;
+			}
+		});
 	}
 
 	// Save message localy

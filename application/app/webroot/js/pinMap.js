@@ -19,6 +19,15 @@ var infowindow;
 			},
 			mapTypeId : google.maps.MapTypeId.ROADMAP
 		}
+		var centerLat = getParameterByName('center_lat');
+		var centerLon = getParameterByName('center_lon');
+		if(centerLat != "" && centerLon != "") {
+			var center = new google.maps.LatLng(
+				parseFloat(centerLat),
+				parseFloat(centerLon));
+			mapOptions.center = center;
+			mapOptions.zoom = 18;
+		}
 		// var options = $.extend(mapOptions, options);
 		
 		var updateMarkers = function() {
